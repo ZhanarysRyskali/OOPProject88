@@ -34,6 +34,7 @@ public class Manager extends Employee {
 		this.employeeRequests = new ArrayList<>();
 	}
 
+	// Approve a student's registration
 	public void approveStudent(Student student) {
 		if (!students.contains(student)) {
 			students.add(student);
@@ -43,16 +44,19 @@ public class Manager extends Employee {
 		}
 	}
 
+	// Add a course for a specific major and year of study
 	public void addCourse(Course course, Major major, int year) {
 		major.addCourseForYear(course, year);
 		System.out.println("Course " + course.getName() + " added for Major: " + major.getName() + ", Year: " + year);
 	}
 
+	// Assign a course to a teacher
 	public void assignCourseToTeacher(Course course, Teacher teacher) {
 		teacher.manageCourse(course);
 		System.out.println("Course " + course.getName() + " assigned to Teacher: " + teacher.getFullName());
 	}
 
+	// Generate a statistical report on academic performance
 	public Report generateReport() {
 		Report report = new Report();
 		double averageGpa = students.stream()
@@ -65,6 +69,7 @@ public class Manager extends Employee {
 		return report;
 	}
 
+	// View information about students or teachers sorted by the given criteria
 	public List<?> viewInfo(SortingCriteria criteria, String type) {
 		if ("students".equalsIgnoreCase(type)) {
 			return sortStudents(criteria);
@@ -100,6 +105,7 @@ public class Manager extends Employee {
 		return teachers;
 	}
 
+	// Prioritize news by topic
 	public void prioritizeNews(String topic) {
 		Collections.sort(news, (n1, n2) -> {
 			if (n1.getTopic().equalsIgnoreCase(topic) && !n2.getTopic().equalsIgnoreCase(topic)) {
@@ -112,6 +118,7 @@ public class Manager extends Employee {
 		System.out.println("News prioritized by topic: " + topic);
 	}
 
+	// View requests from employees that must be signed by the dean/rector
 	public List<Request> viewPendingRequests() {
 		return employeeRequests.stream()
 				.filter(Request::isPendingApproval)
