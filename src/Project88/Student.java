@@ -1,3 +1,4 @@
+
 package Project88;
 
 import java.util.ArrayList;
@@ -10,6 +11,21 @@ public class Student extends User {
 	private Transcript transcript;
 	private boolean isResearcher;
 	private List<ResearchPaper> researchPapers = new ArrayList<>();
+
+	private double gpa;
+
+	public Student(String fullName, String email, String password, int id, double gpa) {
+		super(fullName, email, password, id);
+		this.gpa = gpa;
+	}
+
+	public double getGpa() {
+		return gpa;
+	}
+
+	public void setGpa(double gpa) {
+		this.gpa = gpa;
+	}
 
 	public List<Course> viewCourses() {
 		return courses;
