@@ -1,15 +1,21 @@
 package Project88;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Message {
-	private User sender;
-	private User receiver;
+	private Employee sender;
+	private Employee receiver;
 	private String content;
 	private LocalDate timeStamp;
 	private boolean isRead;
 
-	public Message(User sender, User receiver, String content) {
+
+	private static List<Message> messageLog = new ArrayList<>();
+
+	public Message(Employee sender, Employee receiver, String content) {
 		this.sender = sender;
 		this.receiver = receiver;
 		this.content = content;
@@ -17,12 +23,20 @@ public class Message {
 		this.isRead = false;
 	}
 
+
 	public void sendMessage() {
-		// Logic for sending the message
+		// Add message to the global message log
+		messageLog.add(this);
+
+		// Add message to the receiver's inbox
+		receiver.receiveMessage(this);
+
+		System.out.println("Message sent successfully from " + sender.getFullName() + " to " + receiver.getFullName());
 	}
 
 	public void markAsRead() {
 		this.isRead = true;
+		System.out.println("Message from " + sender.getFullName() + " has been marked as read.");
 	}
 
 	public String getContent() {
@@ -31,5 +45,34 @@ public class Message {
 
 	public User getSenderInfo() {
 		return sender;
+	}
+
+
+	public User getReceiverInfo() {
+		return receiver;
+	}
+
+	public LocalDate getTimeStamp() {
+		return timeStamp;
+	}
+
+	public boolean isRead() {
+		return isRead;
+	}
+
+	// Access the global message log
+	public static List<Message> getMessageLog() {
+		return new ArrayList<>(messageLog);
+	}
+
+	@Override
+	public String toString() {
+		return "Message{" +
+				"Sender=" + sender.getFullName() +
+				", Receiver=" + receiver.getFullName() +
+				", Content='" + content + '\'' +
+				", TimeStamp=" + timeStamp +
+				", IsRead=" + isRead +
+				'}';
 	}
 }
