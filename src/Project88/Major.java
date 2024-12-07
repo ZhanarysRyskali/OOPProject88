@@ -1,10 +1,13 @@
 package Project88;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Major {
     private String name;
     private List<Course> courses;
+    private Map<Integer, List<Course>> coursesByYear;
 
     public Major(String name, List<Course> courses) {
         this.name = name;
@@ -15,7 +18,15 @@ public class Major {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public List<Course> getCourses() {
         return courses;
+    }
+
+    public void addCourseForYear(Course course, int year) {
+        coursesByYear.computeIfAbsent(year, k -> new ArrayList<>()).add(course);
     }
 }
