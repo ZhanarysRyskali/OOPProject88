@@ -5,9 +5,20 @@ import java.util.List;
 
 public class Employee extends User {
 	private String position;
+	private List<Message> receivedMessages;
+	private List<Message> sentMessages;
 
 	public Employee() {
 		super();
+		this.receivedMessages = new ArrayList<>();
+		this.sentMessages = new ArrayList<>();
+	}
+
+	public Employee(String fullName, String email, String password, int id, String position) {
+		super(fullName, email, password, id);
+		this.position = position;
+		this.receivedMessages = new ArrayList<>();
+		this.sentMessages = new ArrayList<>();
 	}
 
 	public String getPosition() {
@@ -20,16 +31,20 @@ public class Employee extends User {
 
 	public Message sendMessage(Employee recipient, String content) {
 		Message message = new Message(this, recipient, content);
+		this.sentMessages.add(message);
+		recipient.receiveMessage(message);
 		return message;
 	}
 
 	public List<Message> viewReceivedMessages() {
-		// Logic to fetch received messages
-		return new ArrayList<>();
+		return new ArrayList<>(receivedMessages);
 	}
 
 	public List<Message> viewSentMessages() {
-		// Logic to fetch sent messages
-		return new ArrayList<>();
+		return new ArrayList<>(sentMessages);
+	}
+
+	private void receiveMessage(Message message) {
+		this.receivedMessages.add(message);
 	}
 }
