@@ -2,6 +2,7 @@ package Project88;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ResearchProject {
 	private String topic;
@@ -18,11 +19,6 @@ public class ResearchProject {
 		this.topic = topic;
 	}
 
-	public void addParticipant(Researcher researcher) {
-		participants.add(researcher);
-	}
-
-	// Getters and Setters
 	public String getTopic() {
 		return topic;
 	}
@@ -32,14 +28,56 @@ public class ResearchProject {
 	}
 
 	public List<ResearchPaper> getPublishedPapers() {
-		return publishedPapers;
+		return new ArrayList<>(publishedPapers);
 	}
 
 	public void setPublishedPapers(List<ResearchPaper> publishedPapers) {
-		this.publishedPapers = publishedPapers;
+		this.publishedPapers = new ArrayList<>(publishedPapers);
+	}
+
+	public void publishPaper(ResearchPaper paper) {
+		if (!publishedPapers.contains(paper)) {
+			publishedPapers.add(paper);
+		}
 	}
 
 	public List<Researcher> getParticipants() {
-		return participants;
+		return new ArrayList<>(participants);
+	}
+
+	public void addParticipant(Researcher researcher) {
+		if (!participants.contains(researcher)) {
+			participants.add(researcher);
+		}
+	}
+
+	public void removeParticipant(Researcher researcher) {
+		participants.remove(researcher);
+	}
+
+	public boolean isParticipant(Researcher researcher) {
+		return participants.contains(researcher);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		ResearchProject that = (ResearchProject) o;
+		return Objects.equals(topic, that.topic);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(topic);
+	}
+
+	@Override
+	public String toString() {
+		return "ResearchProject{" +
+				"topic='" + topic + '\'' +
+				", publishedPapers=" + publishedPapers.size() +
+				", participants=" + participants.size() +
+				'}';
 	}
 }
