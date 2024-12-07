@@ -4,11 +4,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Teacher extends Employee {
-	private List<Course> courses = new ArrayList<>();
-	private List<Student> students = new ArrayList<>();
+	private List<Course> courses;
+	private List<Student> students;
 	private boolean isProfessor;
 	private TeacherStatus status;
 	private UrgencyLevel level;
+	private int yearsOfExperience;
+
+	public Teacher() {
+		super();
+		this.courses = new ArrayList<>();
+		this.students = new ArrayList<>();
+		this.yearsOfExperience = 0;
+	}
+
+	public Teacher(String fullName, String email, String password, int id, String position, boolean isProfessor, TeacherStatus status, int yearsOfExperience) {
+		super(fullName, email, password, id, position);
+		this.courses = new ArrayList<>();
+		this.students = new ArrayList<>();
+		this.isProfessor = isProfessor;
+		this.status = status;
+		this.yearsOfExperience = yearsOfExperience;
+	}
+
+	public List<Course> getAssignedCourses() {
+		return new ArrayList<>(courses);
+	}
 
 	public List<Course> viewCourses() {
 		return new ArrayList<>(courses);
@@ -44,7 +65,9 @@ public class Teacher extends Employee {
 	public List<Student> viewStudents(Course course) {
 		List<Student> courseStudents = new ArrayList<>();
 		for (Student student : students) {
+			if (student.viewCourses().contains(course)) {
 				courseStudents.add(student);
+			}
 		}
 		return courseStudents;
 	}
@@ -71,5 +94,13 @@ public class Teacher extends Employee {
 
 	public void setLevel(UrgencyLevel level) {
 		this.level = level;
+	}
+
+	public int getYearsOfExperience() {
+		return yearsOfExperience;
+	}
+
+	public void setYearsOfExperience(int yearsOfExperience) {
+		this.yearsOfExperience = yearsOfExperience;
 	}
 }
