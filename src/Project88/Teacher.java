@@ -10,12 +10,14 @@ public class Teacher extends Employee {
 	private TeacherStatus status;
 	private UrgencyLevel level;
 	private int yearsOfExperience;
+	private Map<Student, Integer> ratings;
 
 	public Teacher() {
 		super();
 		this.courses = new ArrayList<>();
 		this.students = new ArrayList<>();
 		this.yearsOfExperience = 0;
+		this.ratings = new HashMap<>();
 	}
 
 	public Teacher(String fullName, String email, String password, int id, String position, boolean isProfessor, TeacherStatus status, int yearsOfExperience) {
@@ -91,7 +93,18 @@ public class Teacher extends Employee {
 	public UrgencyLevel getLevel() {
 		return level;
 	}
-
+	
+	public String getFullName() {
+		return super.getFullName();
+	}
+	
+	public double getRating() {
+		if (ratings.isEmpty()) {
+			return 0.0;
+		}
+		return ratings.values().stream().mapToInt(Integer::intValue).average().orElse(0.0);
+	}
+	
 	public void setLevel(UrgencyLevel level) {
 		this.level = level;
 	}
