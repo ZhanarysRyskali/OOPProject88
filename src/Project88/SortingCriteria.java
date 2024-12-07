@@ -1,7 +1,7 @@
 package Project88;
 
 public enum SortingCriteria {
+    GPA,
     NAME,
-    DATE,
-    POPULARITY;
+    EXPERIENCE;
 }
