@@ -1,21 +1,27 @@
 package Project88;
 
 public class Report {
-    private String content;
+    private double averageGpa;
+    private int totalStudents;
 
-    public Report() {
-        this.content = "Default Report Content";
+    public double getAverageGpa() {
+        return averageGpa;
     }
 
-    public Report(String content) {
-        this.content = content;
+    public void setAverageGpa(double averageGpa) {
+        this.averageGpa = averageGpa;
     }
 
-    public String getContent() {
-        return content;
+    public int getTotalStudents() {
+        return totalStudents;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setTotalStudents(int totalStudents) {
+        this.totalStudents = totalStudents;
+    }
+
+    @Override
+    public String toString() {
+        return "Report [Average GPA=" + averageGpa + ", Total Students=" + totalStudents + "]";
     }
 }
