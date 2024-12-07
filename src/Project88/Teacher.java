@@ -11,22 +11,65 @@ public class Teacher extends Employee {
 	private UrgencyLevel level;
 
 	public List<Course> viewCourses() {
-		return courses;
+		return new ArrayList<>(courses);
 	}
 
 	public void manageCourse(Course course) {
-		courses.add(course);
+		if (!courses.contains(course)) {
+			courses.add(course);
+			System.out.println("Course " + course.getName() + " managed by teacher.");
+		} else {
+			System.out.println("Course " + course.getName() + " is already managed by the teacher.");
+		}
 	}
 
 	public void putMarks(Student student, Course course, double mark) {
-		// Logic to assign marks
+		if (students.contains(student) && courses.contains(course)) {
+			student.setMark(course, mark);
+			System.out.println("Mark " + mark + " assigned to student " + student.getName() + " for course " + course.getName() + ".");
+		} else {
+			System.out.println("Student or course not found.");
+		}
 	}
 
 	public void sendComplaint(String complaint, Student student, UrgencyLevel level) {
-		// Complaint logic
+		if (students.contains(student)) {
+			this.level = level;
+			System.out.println("Complaint sent: " + complaint + " with urgency level " + level + " for student " + student.getName() + ".");
+		} else {
+			System.out.println("Student not found.");
+		}
 	}
 
 	public List<Student> viewStudents(Course course) {
-		return students;
+		List<Student> courseStudents = new ArrayList<>();
+		for (Student student : students) {
+				courseStudents.add(student);
+		}
+		return courseStudents;
+	}
+
+	public boolean isProfessor() {
+		return isProfessor;
+	}
+
+	public void setProfessor(boolean isProfessor) {
+		this.isProfessor = isProfessor;
+	}
+
+	public TeacherStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(TeacherStatus status) {
+		this.status = status;
+	}
+
+	public UrgencyLevel getLevel() {
+		return level;
+	}
+
+	public void setLevel(UrgencyLevel level) {
+		this.level = level;
 	}
 }
