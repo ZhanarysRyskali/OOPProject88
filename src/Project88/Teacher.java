@@ -1,7 +1,9 @@
 package Project88;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Teacher extends Employee {
 	private List<Course> courses;
