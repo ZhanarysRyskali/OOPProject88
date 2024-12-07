@@ -3,10 +3,12 @@ package Project88;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public abstract class Employee extends User {
 	private String position;
 	private List<Message> receivedMessages;
 	private List<Message> sentMessages;
+	private static List<Message> messageLog = new ArrayList<>();
 
 	public Employee() {
 		super();
@@ -29,12 +31,28 @@ public abstract class Employee extends User {
 		this.position = position;
 	}
 
-	public Message sendMessage(Employee recipient, String content) {
+
+	public void sendMessage(Employee recipient, String content) {
+		if (recipient == null || content == null || content.trim().isEmpty()) {
+			System.out.println("Error: Invalid recipient or message content.");
+			return;
+		}
+
 		Message message = new Message(this, recipient, content);
-		this.sentMessages.add(message);
+		messageLog.add(message);
+		sentMessages.add(message);
 		recipient.receiveMessage(message);
-		return message;
+
+		System.out.println("Message sent successfully from " + getFullName() + " to " + recipient.getFullName());
 	}
+
+
+	public void receiveMessage(Message message) {
+		if (message != null) {
+			receivedMessages.add(message);
+		}
+	}
+
 
 	public List<Message> viewReceivedMessages() {
 		return new ArrayList<>(receivedMessages);
@@ -44,7 +62,16 @@ public abstract class Employee extends User {
 		return new ArrayList<>(sentMessages);
 	}
 
-	private void receiveMessage(Message message) {
-		this.receivedMessages.add(message);
+	public static List<Message> getMessageLog() {
+		return new ArrayList<>(messageLog);
+	}
+
+	@Override
+	public String toString() {
+		return "Employee{" +
+				"position='" + position + '\'' +
+				", receivedMessages=" + receivedMessages.size() +
+				", sentMessages=" + sentMessages.size() +
+				"} " + super.toString();
 	}
 }
