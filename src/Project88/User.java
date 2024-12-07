@@ -1,6 +1,7 @@
 package Project88;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -10,9 +11,13 @@ public class User implements Researcher {
 	private String password;
 	private int id;
 	private List<UniversityJournal> subscriptions;
+	private List<ResearchPaper> papers;
+	private List<ResearchProject> projects;
 
 	public User() {
 		this.subscriptions = new ArrayList<>();
+		this.papers = new ArrayList<>();
+		this.projects = new ArrayList<>();
 	}
 
 	public User(String fullName, String email, String password, int id) {
@@ -21,6 +26,8 @@ public class User implements Researcher {
 		this.password = password;
 		this.id = id;
 		this.subscriptions = new ArrayList<>();
+		this.papers = new ArrayList<>();
+		this.projects = new ArrayList<>();
 	}
 
 	public String getFullName() {
@@ -75,7 +82,9 @@ public class User implements Researcher {
 
 	public void notifySubscription(ResearchPaper paper) {
 		for (UniversityJournal journal : subscriptions) {
-			// Notify logic here
+			if (journal.getPapers().contains(paper)) {
+				System.out.println("Notification: New paper published in " + journal.getName() + ": " + paper.getTitle());
+			}
 		}
 	}
 
@@ -86,28 +95,60 @@ public class User implements Researcher {
 
 	@Override
 	public List<ResearchProject> getProjects() {
-		return new ArrayList<>();
+		return new ArrayList<>(projects);
 	}
 
 	@Override
 	public List<ResearchPaper> getPapers() {
-		return new ArrayList<>();
+		return new ArrayList<>(papers);
 	}
 
 	@Override
 	public int calculateHIndex() {
-		return 0; // Dummy value
+		List<Integer> citations = new ArrayList<>();
+		for (ResearchPaper paper : papers) {
+			citations.add(paper.getCitations());
+		}
+		Collections.sort(citations, Collections.reverseOrder());
+
+		int hIndex = 0;
+		for (int i = 0; i < citations.size(); i++) {
+			if (citations.get(i) >= i + 1) {
+				hIndex = i + 1;
+			} else {
+				break;
+			}
+		}
+		return hIndex;
 	}
 
 	@Override
 	public void joinProject(ResearchProject project) {
-		// Logic to join a project
+		if (!projects.contains(project)) {
+			projects.add(project);
+			project.addParticipant(this);
+		}
 	}
-
-
 
 	@Override
 	public void printPapers(Comparator<ResearchPaper> comparator) {
-		// Logic to print papers sorted by comparator
+		List<ResearchPaper> sortedPapers = new ArrayList<>(papers);
+		sortedPapers.sort(comparator);
+		for (ResearchPaper paper : sortedPapers) {
+			System.out.println("Title: " + paper.getTitle() + ", Citations: " + paper.getCitations());
+		}
+	}
+
+	public void addPaper(ResearchPaper paper) {
+		if (!papers.contains(paper)) {
+			papers.add(paper);
+		}
+	}
+
+	public void leaveProject(ResearchProject project) {
+		if (projects.contains(project)) {
+			projects.remove(project);
+			project.removeParticipant(this);
+		}
 	}
 }
