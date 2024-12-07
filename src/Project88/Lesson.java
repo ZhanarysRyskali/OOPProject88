@@ -1,0 +1,29 @@
+package Project88;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Lesson {
+	private String name;
+	private List<Teacher> instructors;
+	private List<Student> students;
+	private LessonType type;
+	private Language language;
+
+	public Lesson() {
+		this.instructors = new ArrayList<>();
+		this.students = new ArrayList<>();
+	}
+
+	public void addInstructor(Teacher teacher) {
+		instructors.add(teacher);
+	}
+
+	public void registerStudent(Student student) {
+		students.add(student);
+	}
+
+	public String getLessonInfo() {
+		return "Lesson: " + name + ", Type: " + type + ", Language: " + language;
+	}
+}
