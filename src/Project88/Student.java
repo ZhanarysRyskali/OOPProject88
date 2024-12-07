@@ -44,7 +44,13 @@ public class Student extends User {
 	}
 
 	public void rateTeacher(Teacher teacher, int rating) {
+		if (rating < 1 || rating > 5) {
+			System.out.println("Rating must be between 1 and 5.");
+			return;
+		}
 
+		teacher.getRating();
+		System.out.println("You rated teacher " + teacher.getFullName() + " with " + rating + " stars.");
 	}
 	public void setMark(Course course, double mark) {
 		if (marks != null) {
