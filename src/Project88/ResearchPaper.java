@@ -32,11 +32,10 @@ public class ResearchPaper extends ResearchProject {
 
 	public void notifySubscribers() {
 		for (User subscriber : subscribers) {
-			// Notify logic
+			subscriber.notifySubscription(this);
 		}
 	}
 
-	// Getters and Setters
 	public String getTitle() {
 		return title;
 	}
