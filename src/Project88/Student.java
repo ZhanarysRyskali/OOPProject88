@@ -28,6 +28,19 @@ public class Student extends User {
 	}
 
 	public void rateTeacher(Teacher teacher, int rating) {
-		// Rating logic
+
 	}
+	public void setMark(Course course, double mark) {
+		if (marks != null) {
+			marks.put(course, mark);
+			System.out.println("Mark " + mark + " set for course " + course.getName() + ".");
+		} else {
+			System.out.println("Marks map is not initialized.");
+		}
+	}
+
+	public String getName() {
+		return getFullName();
+	}
+
 }
