@@ -2,6 +2,7 @@
 package Project88;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -44,13 +45,12 @@ public class Student extends User {
 	}
 
 	public void rateTeacher(Teacher teacher, int rating) {
-		if (rating < 1 || rating > 5) {
-			System.out.println("Rating must be between 1 and 5.");
-			return;
+		if (rating >= 1 && rating <= 5) {
+			teacher.addRating(this, rating);
+			System.out.println("You rated teacher " + teacher.getFullName() + " with " + rating + " stars.");
+		} else {
+			System.out.println("Invalid rating. Please provide a rating between 1 and 5.");
 		}
-
-		teacher.getRating();
-		System.out.println("You rated teacher " + teacher.getFullName() + " with " + rating + " stars.");
 	}
 	public void setMark(Course course, double mark) {
 		if (marks != null) {
