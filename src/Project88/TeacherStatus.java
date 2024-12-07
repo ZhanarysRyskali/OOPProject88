@@ -1,7 +1,7 @@
 package Project88;
 
 public enum TeacherStatus {
-	PRACTIC,
+	PRACTICIONER,
 	LECTOR,
 	SENIOR_LECTOR,
 	PROFESSOR;
