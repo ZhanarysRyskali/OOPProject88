@@ -3,7 +3,7 @@ package Project88;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Employee extends User {
+public abstract class Employee extends User {
 	private String position;
 	private List<Message> receivedMessages;
 	private List<Message> sentMessages;
