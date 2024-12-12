@@ -65,4 +65,19 @@ public class Student extends User {
 		return getFullName();
 	}
 
+	private Researcher supervisor;
+
+	public void assignSupervisor(Researcher supervisor) throws InvalidSupervisorException {
+		if (supervisor.calculateHIndex() < 3) {
+			throw new InvalidSupervisorException(
+					"Supervisor h-index is less than 3. Cannot assign as supervisor."
+			);
+		}
+		this.supervisor = supervisor;
+		System.out.println(supervisor.getResearchArea() + " is now your supervisor.");
+	}
+
+	public Researcher getSupervisor() {
+		return supervisor;
+	}
 }
