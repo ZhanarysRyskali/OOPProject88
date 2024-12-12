@@ -45,9 +45,14 @@ public class ResearchProject {
 		return new ArrayList<>(participants);
 	}
 
-	public void addParticipant(Researcher researcher) {
+	public void addParticipant(Object participant) throws NonResearchException{
+		if (!(participant instanceof Researcher)) {
+			throw new NonResearchException("Only a Researcher can join a Research Project.");
+		}
+		Researcher researcher = (Researcher) participant;
 		if (!participants.contains(researcher)) {
 			participants.add(researcher);
+			System.out.println("Researcher added: " + researcher.getResearchArea());
 		}
 	}
 
