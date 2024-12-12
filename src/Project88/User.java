@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class User implements Researcher {
+public abstract class User implements Researcher {
 	private String fullName;
 	private String email;
 	private String password;
