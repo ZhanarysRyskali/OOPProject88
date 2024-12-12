@@ -12,12 +12,14 @@ public class Student extends User {
 	private Transcript transcript;
 	private boolean isResearcher;
 	private List<ResearchPaper> researchPapers = new ArrayList<>();
+	private Faculty faculty;
 
 	private double gpa;
 
-	public Student(String fullName, String email, String password, int id, double gpa) {
+	public Student(String fullName, String email, String password, int id, double gpa, Faculty faculty) {
 		super(fullName, email, password, id);
 		this.gpa = gpa;
+		this.faculty = faculty;
 	}
 
 	public double getGpa() {
