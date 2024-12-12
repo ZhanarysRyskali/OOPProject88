@@ -11,10 +11,15 @@ public class Course {
 	private List<Teacher> instructors;
 	private Language language;
 	private List<Student> students;
+	private CourseType courseType;
 
-	public Course() {
+	public Course(String name, LessonType type, Language language, CourseType courseType) {
 		this.instructors = new ArrayList<>();
 		this.students = new ArrayList<>();
+		this.name = name;
+		this.type = type;
+		this.language = language;
+		this.courseType = courseType;
 	}
 
 	public void addInstructor(Teacher teacher) {
