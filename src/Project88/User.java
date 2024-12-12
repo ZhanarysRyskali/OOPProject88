@@ -126,9 +126,14 @@ public class User implements Researcher {
 	public void joinProject(ResearchProject project) {
 		if (!projects.contains(project)) {
 			projects.add(project);
-			project.addParticipant(this);
+			try {
+				project.addParticipant(this);
+			} catch (NonResearchException e) {
+				System.out.println("Cannot join project: " + e.getMessage());
+			}
 		}
 	}
+
 
 	@Override
 	public void printPapers(Comparator<ResearchPaper> comparator) {
