@@ -1,7 +1,9 @@
 package Project88;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Course {
 	private String name;
@@ -34,4 +36,10 @@ public class Course {
 	public List<Student> getStudents() {
 		return new ArrayList<>(students);
 	}
+
+	public Set<Teacher> getInstructors() {
+		return new HashSet<>(instructors);
+	}
+
+
 }
