@@ -25,10 +25,8 @@ public class Message {
 
 
 	public void sendMessage() {
-		// Add message to the global message log
 		messageLog.add(this);
 
-		// Add message to the receiver's inbox
 		receiver.receiveMessage(this);
 
 		System.out.println("Message sent successfully from " + sender.getFullName() + " to " + receiver.getFullName());
@@ -60,7 +58,6 @@ public class Message {
 		return isRead;
 	}
 
-	// Access the global message log
 	public static List<Message> getMessageLog() {
 		return new ArrayList<>(messageLog);
 	}
