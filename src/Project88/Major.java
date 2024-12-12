@@ -27,6 +27,9 @@ public class Major {
     }
 
     public void addCourseForYear(Course course, int year) {
-        coursesByYear.computeIfAbsent(year, k -> new ArrayList<>()).add(course);
+        if (!coursesByYear.containsKey(year)) {
+            coursesByYear.put(year, new ArrayList<>());
+        }
+        coursesByYear.get(year).add(course);
     }
 }
