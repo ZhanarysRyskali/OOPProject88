@@ -24,7 +24,11 @@ public class ResearchPaper extends ResearchProject {
 	}
 
 	public String getCitation(Format format) {
-		return format == null ? title : format.format(title);
+		if (format == null) {
+			return title;
+		} else {
+			return format.format(title);
+		}
 	}
 
 	public void addCitation() {
