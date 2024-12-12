@@ -34,7 +34,7 @@ public class Manager extends Employee {
 		this.employeeRequests = new ArrayList<>();
 	}
 
-	// Approve a student's registration
+
 	public void approveStudent(Student student) {
 		if (!students.contains(student)) {
 			students.add(student);
@@ -44,32 +44,37 @@ public class Manager extends Employee {
 		}
 	}
 
-	// Add a course for a specific major and year of study
 	public void addCourse(Course course, Major major, int year) {
 		major.addCourseForYear(course, year);
 		System.out.println("Course " + course.getName() + " added for Major: " + major.getName() + ", Year: " + year);
 	}
 
-	// Assign a course to a teacher
 	public void assignCourseToTeacher(Course course, Teacher teacher) {
 		teacher.manageCourse(course);
 		System.out.println("Course " + course.getName() + " assigned to Teacher: " + teacher.getFullName());
 	}
 
-	// Generate a statistical report on academic performance
 	public Report generateReport() {
 		Report report = new Report();
-		double averageGpa = students.stream()
-				.mapToDouble(Student::getGpa)
-				.average()
-				.orElse(0.0);
+
+		double totalGpa = 0.0;
+		for (Student student : students) {
+			totalGpa += student.getGpa();
+		}
+		double averageGpa;
+		if (students.isEmpty()) {
+			averageGpa = 0.0;
+		} else {
+			averageGpa = totalGpa / students.size();
+		}
+
 		report.setAverageGpa(averageGpa);
 		report.setTotalStudents(students.size());
+
 		System.out.println("Report generated: Average GPA = " + averageGpa + ", Total Students = " + students.size());
+
 		return report;
 	}
-
-	// View information about students or teachers sorted by the given criteria
 	public List<?> viewInfo(SortingCriteria criteria, String type) {
 		if ("students".equalsIgnoreCase(type)) {
 			return sortStudents(criteria);
@@ -81,19 +86,29 @@ public class Manager extends Employee {
 
 	private List<Student> sortStudents(SortingCriteria criteria) {
 		List<Student> sortedStudents = new ArrayList<>(students);
-		switch (criteria) {
-			case GPA:
-				sortedStudents.sort(Comparator.comparingDouble(Student::getGpa).reversed());
-				break;
-			case NAME:
-				sortedStudents.sort(Comparator.comparing(Student::getFullName));
-				break;
+
+		if (criteria == SortingCriteria.GPA) {
+			sortedStudents.sort(new Comparator<Student>() {
+				@Override
+				public int compare(Student s1, Student s2) {
+					return Double.compare(s2.getGpa(), s1.getGpa());
+				}
+			});
+		} else if (criteria == SortingCriteria.NAME) {
+			sortedStudents.sort(new Comparator<Student>() {
+				@Override
+				public int compare(Student s1, Student s2) {
+					return s1.getFullName().compareTo(s2.getFullName());
+				}
+			});
 		}
+
 		return sortedStudents;
 	}
 
+
 	private List<Teacher> sortTeachers(SortingCriteria criteria) {
-		List<Teacher> teachers = getTeachers(); // Assume there's a method to fetch teachers
+		List<Teacher> teachers = getTeachers();
 		switch (criteria) {
 			case NAME:
 				teachers.sort(Comparator.comparing(Teacher::getFullName));
@@ -105,7 +120,7 @@ public class Manager extends Employee {
 		return teachers;
 	}
 
-	// Prioritize news by topic
+
 	public void prioritizeNews(String topic) {
 		Collections.sort(news, (n1, n2) -> {
 			if (n1.getTopic().equalsIgnoreCase(topic) && !n2.getTopic().equalsIgnoreCase(topic)) {
@@ -118,11 +133,15 @@ public class Manager extends Employee {
 		System.out.println("News prioritized by topic: " + topic);
 	}
 
-	// View requests from employees that must be signed by the dean/rector
+
 	public List<Request> viewPendingRequests() {
-		return employeeRequests.stream()
-				.filter(Request::isPendingApproval)
-				.collect(Collectors.toList());
+		List<Request> pendingRequests = new ArrayList<>();
+		for (Request request : employeeRequests) {
+			if (request.isPendingApproval()) {
+				pendingRequests.add(request);
+			}
+		}
+		return pendingRequests;
 	}
 
 	public void addEmployeeRequest(Request request) {
