@@ -1,11 +1,8 @@
 package Project88;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class Teacher extends Employee {
+public class Teacher extends Employee implements Researcher{
 	private List<Course> courses;
 	private List<Student> students;
 	private boolean isProfessor;
@@ -13,6 +10,8 @@ public class Teacher extends Employee {
 	private UrgencyLevel level;
 	private int yearsOfExperience;
 	private Map<Student, Integer> ratings;
+	private List<ResearchPaper> papers;
+	private List<ResearchProject> projects;
 
 	public Teacher() {
 		super();
@@ -116,5 +115,95 @@ public class Teacher extends Employee {
 
 	public double calculateAverageRating() {
 		return ratings.values().stream().mapToInt(Integer::intValue).average().orElse(0.0);
+	}
+
+	@Override
+	public List<ResearchProject> getProjects() {
+		if (isProfessor == true)
+			return new ArrayList<>(projects);
+		else
+			return null;
+	}
+
+	@Override
+	public List<ResearchPaper> getPapers() {
+		if (isProfessor == true)
+			return new ArrayList<>(papers);
+		else
+			return null;
+	}
+
+	@Override
+	public int calculateHIndex() {
+		if (isProfessor == true) {
+			List<Integer> citations = new ArrayList<>();
+			for (ResearchPaper paper : papers) {
+				citations.add(paper.getCitations());
+			}
+			Collections.sort(citations, Collections.reverseOrder());
+
+			int hIndex = 0;
+			for (int i = 0; i < citations.size(); i++) {
+				if (citations.get(i) >= i + 1) {
+					hIndex = i + 1;
+				} else {
+					break;
+				}
+			}
+			return hIndex;
+		}
+		else
+			return 0;
+	}
+
+	@Override
+	public void joinProject(ResearchProject project) {
+		if (isProfessor == true) {
+			if (!projects.contains(project)) {
+				projects.add(project);
+				try {
+					project.addParticipant(this);
+				} catch (NonResearchException e) {
+					System.out.println("Cannot join project: " + e.getMessage());
+				}
+			}
+		}
+	}
+
+
+	@Override
+	public void printPapers(Comparator<ResearchPaper> comparator) {
+		if (isProfessor == true) {
+			List<ResearchPaper> sortedPapers = new ArrayList<>(papers);
+			sortedPapers.sort(comparator);
+			for (ResearchPaper paper : sortedPapers) {
+				System.out.println("Title: " + paper.getTitle() + ", Citations: " + paper.getCitations());
+			}
+		}
+	}
+
+	public void addPaper(ResearchPaper paper) {
+		if (isProfessor == true) {
+			if (!papers.contains(paper)) {
+				papers.add(paper);
+			}
+		}
+	}
+
+	public void leaveProject(ResearchProject project) {
+		if (isProfessor == true) {
+			if (projects.contains(project)) {
+				projects.remove(project);
+				project.removeParticipant(this);
+			}
+		}
+	}
+
+	@Override
+	public void publishPaper(ResearchPaper paper, News news) {
+		if(isProfessor == true){
+			papers.add(paper);
+			news.announcePaper(paper);
+		}
 	}
 }
