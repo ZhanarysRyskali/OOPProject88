@@ -15,4 +15,6 @@ public interface Researcher {
 	void joinProject(ResearchProject project);
 
 	void printPapers(Comparator<ResearchPaper> comparator);
+
+	public void publishPaper(ResearchPaper paper, News news);
 }
