@@ -1,5 +1,8 @@
 package Project88;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Order {
     private int orderId;
     private String description;
@@ -33,5 +36,39 @@ public class Order {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public boolean isNew() {
+        return this.status == Status.PENDING;
+    }
+
+    public static List<Order> filterOrders(List<Order> orders, Status status) {
+        List<Order> filteredOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getStatus() == status) {
+                filteredOrders.add(order);
+            }
+        }
+        return filteredOrders;
+    }
+
+    public static List<Order> getAcceptedNotDoneOrders(List<Order> orders) {
+        List<Order> filteredOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getStatus() == Status.ACCEPTED) {
+                filteredOrders.add(order);
+            }
+        }
+        return filteredOrders;
+    }
+
+    public static List<Order> getDoneOrders(List<Order> orders) {
+        List<Order> filteredOrders = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getStatus() == Status.COMPLETED) {
+                filteredOrders.add(order);
+            }
+        }
+        return filteredOrders;
     }
 }
