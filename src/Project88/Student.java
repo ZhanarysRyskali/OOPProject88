@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Student extends User {
-	private List<Course> courses = new ArrayList<>();
+	private List<Course> courses;
 	private Map<Course, Double> marks;
 	private Transcript transcript;
 	private boolean isResearcher;
@@ -20,6 +20,30 @@ public class Student extends User {
 		super(fullName, email, password, id);
 		this.gpa = gpa;
 		this.faculty = faculty;
+		this.courses = new ArrayList<>();
+
+	}
+
+	public void enrollCourse(Course course) {
+		courses.add(course);
+	}
+
+	public List<Course> getFreeElectives(List<Course> allCourses) {
+		List<Course> freeElectives = new ArrayList<>();
+		for (Course course : allCourses) {
+			if (course.isFreeElectiveFor(this.faculty)) {
+				freeElectives.add(course);
+			}
+		}
+		return freeElectives;
+	}
+
+	public Faculty getFaculty() {
+		return faculty;
+	}
+
+	public List<Course> courses() {
+		return new ArrayList<>(courses);
 	}
 
 	public double getGpa() {
