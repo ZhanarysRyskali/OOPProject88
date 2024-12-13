@@ -156,4 +156,9 @@ public abstract class User implements Researcher {
 			project.removeParticipant(this);
 		}
 	}
+
+	public void publishPaper(ResearchPaper paper, News news) {
+		papers.add(paper);
+		news.announcePaper(paper);
+	}
 }
