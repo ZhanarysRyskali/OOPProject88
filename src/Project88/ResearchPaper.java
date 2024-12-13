@@ -1,10 +1,8 @@
-
 package Project88;
 
-import java.text.Format;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class ResearchPaper extends ResearchProject {
@@ -13,7 +11,7 @@ public class ResearchPaper extends ResearchProject {
 	private String journal;
 	private int pages;
 	private LocalDate datePublished;
-	private int citations;
+	private List<String> citations = new ArrayList<>();
 	private String doi;
 	private List<User> subscribers = new ArrayList<>();
 
@@ -24,16 +22,8 @@ public class ResearchPaper extends ResearchProject {
 		this.pages = pages;
 	}
 
-	public String getCitation(Format format) {
-		if (format == null) {
-			return title;
-		} else {
-			return format.format(title);
-		}
-	}
-
-	public void addCitation() {
-		citations++;
+	public void addCitation(String citation) {
+		citations.add(citation);
 	}
 
 	public void notifySubscribers() {
@@ -78,8 +68,8 @@ public class ResearchPaper extends ResearchProject {
 		this.datePublished = datePublished;
 	}
 
-	public int getCitations() {
-		return citations;
+	public int getCitationsCount() {
+		return citations.size();
 	}
 
 	public String getDoi() {
@@ -90,40 +80,19 @@ public class ResearchPaper extends ResearchProject {
 		this.doi = doi;
 	}
 
-	public int getPages() {
-		return pages;
-	}
+	public String getCitation(Format f) {
+		String formattedAuthors = String.join(", ", authors);
+		String formattedDate = datePublished.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-	public static Comparator<ResearchPaper> byDatePublished() {
-		return Comparator.comparing(ResearchPaper::getDatePublished);
-	}
-
-	public static Comparator<ResearchPaper> byCitations() {
-		return Comparator.comparingInt(ResearchPaper::getCitations).reversed();
-	}
-
-	public static Comparator<ResearchPaper> byArticleLength() {
-		return Comparator.comparingInt(ResearchPaper::getPages);
-	}
-	
-	public static void printPapers(List<ResearchPaper> papers, Comparator<ResearchPaper> comparator) {
-		papers.sort(comparator);
-		for (ResearchPaper paper : papers) {
-			System.out.println(
-					"Title: " + paper.getTitle() +
-							", Journal: " + paper.getJournal() +
-							", Date Published: " + paper.getDatePublished() +
-							", Pages: " + paper.getPages() +
-							", Citations: " + paper.getCitations()
-			);
+		switch (f) {
+			case PLAIN_TEXT:
+				return String.format("%s. \"%s.\" %s, %s, %d pages, DOI: %s.",
+						formattedAuthors, title, journal, formattedDate, pages, doi != null ? doi : "N/A");
+			case BIBTEX:
+				return String.format("@article{%s,\n  author = {%s},\n  title = {%s},\n  journal = {%s},\n  year = {%s},\n  pages = {%d},\n  doi = {%s}\n}",
+						doi != null ? doi : title.replaceAll("\\s+", "_"), formattedAuthors, title, journal, formattedDate.substring(0, 4), pages, doi != null ? doi : "N/A");
+			default:
+				throw new IllegalArgumentException("Unsupported format: " + f);
 		}
-	}
-
-	public static List<ResearchPaper> collectPapers(List<Researcher> researchers) {
-		List<ResearchPaper> allPapers = new ArrayList<>();
-		for (Researcher researcher : researchers) {
-			allPapers.addAll(researcher.getPapers());
-		}
-		return allPapers;
 	}
 }
