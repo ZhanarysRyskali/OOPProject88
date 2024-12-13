@@ -4,6 +4,7 @@ package Project88;
 import java.text.Format;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ResearchPaper extends ResearchProject {
@@ -87,5 +88,42 @@ public class ResearchPaper extends ResearchProject {
 
 	public void setDoi(String doi) {
 		this.doi = doi;
+	}
+
+	public int getPages() {
+		return pages;
+	}
+
+	public static Comparator<ResearchPaper> byDatePublished() {
+		return Comparator.comparing(ResearchPaper::getDatePublished);
+	}
+
+	public static Comparator<ResearchPaper> byCitations() {
+		return Comparator.comparingInt(ResearchPaper::getCitations).reversed();
+	}
+
+	public static Comparator<ResearchPaper> byArticleLength() {
+		return Comparator.comparingInt(ResearchPaper::getPages);
+	}
+	
+	public static void printPapers(List<ResearchPaper> papers, Comparator<ResearchPaper> comparator) {
+		papers.sort(comparator);
+		for (ResearchPaper paper : papers) {
+			System.out.println(
+					"Title: " + paper.getTitle() +
+							", Journal: " + paper.getJournal() +
+							", Date Published: " + paper.getDatePublished() +
+							", Pages: " + paper.getPages() +
+							", Citations: " + paper.getCitations()
+			);
+		}
+	}
+
+	public static List<ResearchPaper> collectPapers(List<Researcher> researchers) {
+		List<ResearchPaper> allPapers = new ArrayList<>();
+		for (Researcher researcher : researchers) {
+			allPapers.addAll(researcher.getPapers());
+		}
+		return allPapers;
 	}
 }
