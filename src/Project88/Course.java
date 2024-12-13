@@ -9,17 +9,19 @@ public class Course {
 	private String name;
 	private LessonType type;
 	private List<Teacher> instructors;
+	private Faculty faculty;
 	private Language language;
 	private List<Student> students;
 	private CourseType courseType;
 
-	public Course(String name, LessonType type, Language language, CourseType courseType) {
+	public Course(String name, LessonType type, Language language, CourseType courseType, Faculty faculty) {
 		this.instructors = new ArrayList<>();
 		this.students = new ArrayList<>();
 		this.name = name;
 		this.type = type;
 		this.language = language;
 		this.courseType = courseType;
+		this.faculty = faculty;
 	}
 
 	public void addInstructor(Teacher teacher) {
@@ -44,6 +46,26 @@ public class Course {
 
 	public Set<Teacher> getInstructors() {
 		return new HashSet<>(instructors);
+	}
+
+	public Faculty getFaculty() {
+		return faculty;
+	}
+
+	public void setFaculty(Faculty faculty) {
+		this.faculty = faculty;
+	}
+
+	public CourseType getCourseType() {
+		return courseType;
+	}
+
+	public void setCourseType(CourseType courseType) {
+		this.courseType = courseType;
+	}
+
+	public boolean isFreeElectiveFor(Faculty studentFaculty) {
+		return this.courseType == CourseType.MAJOR && this.faculty != studentFaculty;
 	}
 
 
