@@ -10,6 +10,7 @@ public abstract class User implements Researcher {
 	private String email;
 	private String password;
 	private int id;
+	private Format format;
 	private List<UniversityJournal> subscriptions;
 	private List<ResearchPaper> papers;
 	private List<ResearchProject> projects;
@@ -107,7 +108,7 @@ public abstract class User implements Researcher {
 	public int calculateHIndex() {
 		List<Integer> citations = new ArrayList<>();
 		for (ResearchPaper paper : papers) {
-			citations.add(paper.getCitations());
+			citations.add(paper.getCitationsCount()); // Use getCitationsCount
 		}
 		Collections.sort(citations, Collections.reverseOrder());
 
@@ -140,7 +141,7 @@ public abstract class User implements Researcher {
 		List<ResearchPaper> sortedPapers = new ArrayList<>(papers);
 		sortedPapers.sort(comparator);
 		for (ResearchPaper paper : sortedPapers) {
-			System.out.println("Title: " + paper.getTitle() + ", Citations: " + paper.getCitations());
+			System.out.println("Title: " + paper.getTitle() + ", Citations: " + paper.getCitationsCount()); // Use getCitationsCount
 		}
 	}
 
