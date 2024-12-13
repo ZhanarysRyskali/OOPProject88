@@ -47,4 +47,9 @@ public class Supervisor implements Researcher {
             System.out.println(paper.getTitle());
         }
     }
+
+    public void publishPaper(ResearchPaper paper, News news) {
+        papers.add(paper);
+        news.announcePaper(paper);
+    }
 }
