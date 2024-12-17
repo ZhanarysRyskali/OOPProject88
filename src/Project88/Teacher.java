@@ -2,9 +2,9 @@ package Project88;
 
 import java.util.*;
 
-public class Teacher extends Employee implements Researcher{
-	private List<Course> courses;
-	private List<Student> students;
+public class Teacher extends Employee implements Researcher {
+	private List<Course> mcourses;
+	public List<Student> students;
 	private boolean isProfessor;
 	private TeacherStatus status;
 	private UrgencyLevel level;
@@ -12,44 +12,49 @@ public class Teacher extends Employee implements Researcher{
 	private Map<Student, Integer> ratings;
 	private List<ResearchPaper> papers;
 	private List<ResearchProject> projects;
+	private double hIndex;
 
 	public Teacher() {
 		super();
-		this.courses = new ArrayList<>();
+		this.mcourses = new ArrayList<>();
 		this.students = new ArrayList<>();
 		this.yearsOfExperience = 0;
 		this.ratings = new HashMap<>();
+		this.papers = new ArrayList<>();
+		this.projects = new ArrayList<>();
 	}
 
 	public Teacher(String fullName, String email, String password, int id, String position, boolean isProfessor, TeacherStatus status, int yearsOfExperience) {
 		super(fullName, email, password, id, position);
-		this.courses = new ArrayList<>();
+		this.mcourses = new ArrayList<>();
 		this.students = new ArrayList<>();
 		this.isProfessor = isProfessor;
 		this.status = status;
 		this.yearsOfExperience = yearsOfExperience;
 		this.ratings = new HashMap<>();
+		this.papers = new ArrayList<>();
+		this.projects = new ArrayList<>();
 	}
 
 	public List<Course> getAssignedCourses() {
-		return new ArrayList<>(courses);
+		return new ArrayList<>(mcourses);
 	}
 
 	public List<Course> viewCourses() {
-		return new ArrayList<>(courses);
+		return new ArrayList<>(mcourses);
 	}
 
 	public void manageCourse(Course course) {
-		if (!courses.contains(course)) {
-			courses.add(course);
-			System.out.println("Course " + course.getName() + " managed by teacher.");
+		if (!mcourses.contains(course)) {
+			mcourses.add(course);
+			System.out.println("Course " + course.getName() + " managed by teacher" + this.getFullName());
 		} else {
-			System.out.println("Course " + course.getName() + " is already managed by the teacher.");
+			System.out.println("Course " + course.getName() + " is managed by the teacher." + this.getFullName());
 		}
 	}
 
 	public void putMarks(Student student, Course course, double mark) {
-		if (students.contains(student) && courses.contains(course)) {
+		if (students.contains(student) && mcourses.contains(course)) {
 			student.setMark(course, mark);
 			System.out.println("Mark " + mark + " assigned to student " + student.getName() + " for course " + course.getName() + ".");
 		} else {
@@ -133,27 +138,15 @@ public class Teacher extends Employee implements Researcher{
 			return null;
 	}
 
-	@Override
-	public int calculateHIndex() {
-		if (isProfessor == true) {
-			List<Integer> citations = new ArrayList<>();
-			for (ResearchPaper paper : papers) {
-				citations.add(paper.getCitationsCount()); // Use getCitationsCount
-			}
-			Collections.sort(citations, Collections.reverseOrder());
 
-			int hIndex = 0;
-			for (int i = 0; i < citations.size(); i++) {
-				if (citations.get(i) >= i + 1) {
-					hIndex = i + 1;
-				} else {
-					break;
-				}
-			}
-			return hIndex;
-		}
-		else
-			return 0;
+
+	public void setHIndex(double hIndex) {
+		this.hIndex = hIndex;
+	}
+
+	@Override
+	public double getHIndex(){
+		return hIndex;
 	}
 
 	@Override
@@ -170,14 +163,13 @@ public class Teacher extends Employee implements Researcher{
 		}
 	}
 
-
 	@Override
 	public void printPapers(Comparator<ResearchPaper> comparator) {
 		if (isProfessor == true) {
 			List<ResearchPaper> sortedPapers = new ArrayList<>(papers);
 			sortedPapers.sort(comparator);
 			for (ResearchPaper paper : sortedPapers) {
-				System.out.println("Title: " + paper.getTitle() + ", Citations: " + paper.getCitationsCount()); // Use getCitationsCount
+				System.out.println("Title: " + paper.getTitle() + ", Citations: " + paper.getCitationsCount());
 			}
 		}
 	}
