@@ -1,4 +1,3 @@
-
 package Project88;
 
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ public class Student extends User {
 	private boolean isResearcher;
 	private List<ResearchPaper> researchPapers = new ArrayList<>();
 	private Faculty faculty;
+	private double hIndex;
 
 	private double gpa;
 
@@ -21,7 +21,7 @@ public class Student extends User {
 		this.gpa = gpa;
 		this.faculty = faculty;
 		this.courses = new ArrayList<>();
-
+		this.marks = new HashMap<>();
 	}
 
 	public void enrollCourse(Course course) {
@@ -40,6 +40,15 @@ public class Student extends User {
 
 	public Faculty getFaculty() {
 		return faculty;
+	}
+
+	public void setHIndex(double hIndex) {
+		this.hIndex = hIndex;
+	}
+
+	@Override
+	public double getHIndex(){
+		return hIndex;
 	}
 
 	public List<Course> courses() {
@@ -94,13 +103,13 @@ public class Student extends User {
 	private Researcher supervisor;
 
 	public void assignSupervisor(Researcher supervisor) throws InvalidSupervisorException {
-		if (supervisor.calculateHIndex() < 3) {
+		if (supervisor.getHIndex() < 3) {
 			throw new InvalidSupervisorException(
 					"Supervisor h-index is less than 3. Cannot assign as supervisor."
 			);
 		}
 		this.supervisor = supervisor;
-		System.out.println(supervisor.getResearchArea() + " is now your supervisor.");
+		System.out.println(supervisor + " is now your supervisor.");
 	}
 
 	public Researcher getSupervisor() {
