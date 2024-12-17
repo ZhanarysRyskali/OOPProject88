@@ -52,7 +52,7 @@ public class ResearchProject {
 		Researcher researcher = (Researcher) participant;
 		if (!participants.contains(researcher)) {
 			participants.add(researcher);
-			System.out.println("Researcher added: " + researcher.getResearchArea());
+			System.out.println("Researcher added: " + researcher);
 		}
 	}
 
