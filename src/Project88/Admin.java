@@ -5,18 +5,20 @@ import java.util.List;
 
 public class Admin extends Employee {
 	private List<String> logFiles;
-	private List<User> users;
+	public List<User> users;
+	private static Admin instance;
 
-	public Admin() {
-		super();
+	private Admin(String fullName, String email, String password, int id, String position) {
+		super(fullName, email, password, id, position);
 		this.logFiles = new ArrayList<>();
 		this.users = new ArrayList<>();
 	}
 
-	public Admin(String fullName, String email, String password, int id, String position) {
-		super(fullName, email, password, id, position);
-		this.logFiles = new ArrayList<>();
-		this.users = new ArrayList<>();
+	public static Admin getInstance() {
+		if (instance == null) {
+			instance = new Admin("System Admin", "admin@university.com", "admin123", 1, "Administrator");
+		}
+		return instance;
 	}
 
 	public void addUser(User user) {
