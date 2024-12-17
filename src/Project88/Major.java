@@ -1,6 +1,7 @@
 package Project88;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ public class Major {
     public Major(String name, List<Course> courses) {
         this.name = name;
         this.courses = courses;
+        this.coursesByYear = new HashMap<>();
     }
 
     public String getName() {
