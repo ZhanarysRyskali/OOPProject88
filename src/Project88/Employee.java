@@ -68,10 +68,6 @@ public abstract class Employee extends User {
 
 	@Override
 	public String toString() {
-		return "Employee{" +
-				"position='" + position + '\'' +
-				", receivedMessages=" + receivedMessages.size() +
-				", sentMessages=" + sentMessages.size() +
-				"} " + super.toString();
+		return "position='" + position + '\'' + super.toString();
 	}
 }
