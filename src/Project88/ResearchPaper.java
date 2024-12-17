@@ -7,13 +7,12 @@ import java.util.List;
 
 public class ResearchPaper extends ResearchProject {
 	private String title;
-	private List<String> authors = new ArrayList<>();
+	private List<Researcher> authors = new ArrayList<>();
 	private String journal;
 	private int pages;
 	private LocalDate datePublished;
 	private List<String> citations = new ArrayList<>();
 	private String doi;
-	private List<User> subscribers = new ArrayList<>();
 
 	public ResearchPaper(String title, String journal, LocalDate datePublished, int pages) {
 		this.title = title;
@@ -26,11 +25,6 @@ public class ResearchPaper extends ResearchProject {
 		citations.add(citation);
 	}
 
-	public void notifySubscribers() {
-		for (User subscriber : subscribers) {
-			subscriber.notifySubscription(this);
-		}
-	}
 
 	public String getTitle() {
 		return title;
@@ -40,15 +34,15 @@ public class ResearchPaper extends ResearchProject {
 		this.title = title;
 	}
 
-	public List<String> getAuthors() {
+	public List<Researcher> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(List<String> authors) {
+	public void setAuthors(List<Researcher> authors) {
 		this.authors = authors;
 	}
 
-	public void addAuthor(String author) {
+	public void addAuthor(Researcher author) {
 		authors.add(author);
 	}
 
@@ -81,8 +75,16 @@ public class ResearchPaper extends ResearchProject {
 	}
 
 	public String getCitation(Format f) {
-		String formattedAuthors = String.join(", ", authors);
-		String formattedDate = datePublished.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		// Convert authors list to a comma-separated string
+		String formattedAuthors = "";
+		for (Researcher author : authors) {
+			if (!formattedAuthors.isEmpty()) {
+				formattedAuthors += ", ";
+			}
+			formattedAuthors += author.toString();
+		}
+
+		String formattedDate = datePublished.toString();
 
 		switch (f) {
 			case PLAIN_TEXT:
@@ -95,4 +97,5 @@ public class ResearchPaper extends ResearchProject {
 				throw new IllegalArgumentException("Unsupported format: " + f);
 		}
 	}
+
 }
