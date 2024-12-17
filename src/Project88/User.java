@@ -14,6 +14,7 @@ public abstract class User implements Researcher {
 	private List<UniversityJournal> subscriptions;
 	private List<ResearchPaper> papers;
 	private List<ResearchProject> projects;
+	private double hIndex;
 
 	public User() {
 		this.subscriptions = new ArrayList<>();
@@ -82,17 +83,10 @@ public abstract class User implements Researcher {
 	}
 
 	public void notifySubscription(ResearchPaper paper) {
-		for (UniversityJournal journal : subscriptions) {
-			if (journal.getPapers().contains(paper)) {
-				System.out.println("Notification: New paper published in " + journal.getName() + ": " + paper.getTitle());
-			}
-		}
+		System.out.println("Notification for " + fullName + ": New paper published - "
+				+ paper.getTitle() + " in " + paper.getJournal());
 	}
 
-	@Override
-	public String getResearchArea() {
-		return "General Research";
-	}
 
 	@Override
 	public List<ResearchProject> getProjects() {
@@ -104,22 +98,12 @@ public abstract class User implements Researcher {
 		return new ArrayList<>(papers);
 	}
 
-	@Override
-	public int calculateHIndex() {
-		List<Integer> citations = new ArrayList<>();
-		for (ResearchPaper paper : papers) {
-			citations.add(paper.getCitationsCount()); // Use getCitationsCount
-		}
-		Collections.sort(citations, Collections.reverseOrder());
+	public void setHIndex(double hIndex) {
+		this.hIndex = hIndex;
+	}
 
-		int hIndex = 0;
-		for (int i = 0; i < citations.size(); i++) {
-			if (citations.get(i) >= i + 1) {
-				hIndex = i + 1;
-			} else {
-				break;
-			}
-		}
+	@Override
+	public double getHIndex() {
 		return hIndex;
 	}
 
@@ -161,5 +145,9 @@ public abstract class User implements Researcher {
 	public void publishPaper(ResearchPaper paper, News news) {
 		papers.add(paper);
 		news.announcePaper(paper);
+	}
+
+	@Override public String toString() {
+		return fullName + " (" + email + ")";
 	}
 }
