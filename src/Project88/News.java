@@ -9,8 +9,9 @@ public class News {
 	private String content;
 	private String topic;
 	private List<String> comments;
-	private List<News> newsList;
+	private List<News> newsList = new ArrayList<>();
 	private boolean pinned;
+	private List<User> subscribers = new ArrayList<>();
 
 	public News(String title, String content, String topic) {
 		this.title = title;
@@ -19,6 +20,18 @@ public class News {
 		this.pinned = "Research".equalsIgnoreCase(topic);
 		this.comments = new ArrayList<>();
 	}
+
+
+	public void subscribe(User user) {
+		if (!subscribers.contains(user)) {
+			subscribers.add(user);
+		}
+	}
+
+	public void unsubscribe(User user) {
+		subscribers.remove(user);
+	}
+
 
 	public void addComment(String comment) {
 		comments.add(comment);
@@ -72,7 +85,10 @@ public class News {
 				),
 				"Research"
 		);
-		addNews(announcement);
+		for (User subscriber : subscribers) {
+			addNews(announcement);
+			subscriber.notifySubscription(paper);
+		}
 	}
 
 	public List<String> getComments() {
