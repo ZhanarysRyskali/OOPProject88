@@ -23,8 +23,11 @@ public class Lesson {
 
 
 	public void registerStudent(Student student) {
-		students.add(student);
+    		if (student != null && !students.contains(student)) {
+        		students.add(student);
+    		}
 	}
+
 
 	public String getLessonInfo() {
 		return "Lesson: " + name + ", Type: " + type + ", Language: " + language;
