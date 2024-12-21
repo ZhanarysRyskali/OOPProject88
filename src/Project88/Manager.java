@@ -18,6 +18,14 @@ public class Manager extends Employee {
 		this.employeeRequests = new ArrayList<>();
 	}
 
+	public Manager(String fullName, String email, String password, int id, String position, ManagerType managerType) {
+		super(fullName, email, password, id, position);
+		this.managerType = managerType;
+		this.news = new ArrayList<>();
+		this.students = new ArrayList<>();
+		this.employeeRequests = new ArrayList<>();
+	}
+
 	public List<Teacher> getTeachers() {
 		return new ArrayList<>(teachers);
 	}
@@ -26,13 +34,7 @@ public class Manager extends Employee {
 		teachers.add(teacher);
 	}
 
-	public Manager(String fullName, String email, String password, int id, String position, ManagerType managerType) {
-		super(fullName, email, password, id, position);
-		this.managerType = managerType;
-		this.news = new ArrayList<>();
-		this.students = new ArrayList<>();
-		this.employeeRequests = new ArrayList<>();
-	}
+	
 
 
 	public void approveStudent(Student student) {
