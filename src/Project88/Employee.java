@@ -8,7 +8,7 @@ public abstract class Employee extends User {
 	private String position;
 	private List<Message> receivedMessages;
 	private List<Message> sentMessages;
-	private static List<Message> messageLog = new ArrayList<>();
+
 
 	public Employee() {
 		super();
@@ -39,7 +39,6 @@ public abstract class Employee extends User {
 		}
 
 		Message message = new Message(this, recipient, content);
-		messageLog.add(message);
 		sentMessages.add(message);
 		recipient.receiveMessage(message);
 
@@ -60,10 +59,6 @@ public abstract class Employee extends User {
 
 	public List<Message> viewSentMessages() {
 		return new ArrayList<>(sentMessages);
-	}
-
-	public static List<Message> getMessageLog() {
-		return new ArrayList<>(messageLog);
 	}
 
 	@Override
