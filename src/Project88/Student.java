@@ -51,9 +51,6 @@ public class Student extends User {
 		return hIndex;
 	}
 
-	public List<Course> courses() {
-		return new ArrayList<>(courses);
-	}
 
 	public double getGpa() {
 		return gpa;
