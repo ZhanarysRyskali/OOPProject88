@@ -13,7 +13,6 @@ public class Message {
 	private boolean isRead;
 
 
-	private static List<Message> messageLog = new ArrayList<>();
 
 	public Message(Employee sender, Employee receiver, String content) {
 		this.sender = sender;
@@ -25,7 +24,6 @@ public class Message {
 
 
 	public void sendMessage() {
-		messageLog.add(this);
 
 		receiver.receiveMessage(this);
 
