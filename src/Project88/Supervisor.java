@@ -5,11 +5,11 @@ import java.util.Comparator;
 import java.util.List;
 
 public class Supervisor implements Researcher {
-    private int hIndex;
+    private double hIndex;
     private List<ResearchProject> projects = new ArrayList<>();
     private List<ResearchPaper> papers = new ArrayList<>();
 
-    public Supervisor(int hIndex) throws InvalidSupervisorException {
+    public Supervisor(double hIndex) throws InvalidSupervisorException {
         if (hIndex < 3) {
             throw new InvalidSupervisorException("Supervisor h-index is less than 3. Cannot assign as supervisor.");
         }
