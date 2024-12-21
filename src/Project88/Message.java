@@ -58,9 +58,6 @@ public class Message {
 		return isRead;
 	}
 
-	public static List<Message> getMessageLog() {
-		return new ArrayList<>(messageLog);
-	}
 
 	@Override
 	public String toString() {
