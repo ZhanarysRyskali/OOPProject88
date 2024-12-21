@@ -16,8 +16,11 @@ public class Lesson {
 	}
 
 	public void addInstructor(Teacher teacher) {
-		instructors.add(teacher);
+    		if (teacher != null && !instructors.contains(teacher)) {
+       			instructors.add(teacher);
+    		}
 	}
+
 
 	public void registerStudent(Student student) {
 		students.add(student);
